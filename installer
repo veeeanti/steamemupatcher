@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -e # exit on error
+
+: <<'endcmmnt'
+thank you to _drazy for his script for installing a similar 
+tool made for windows only to be used on Linux, which is 
+the base for this one. make sure it is allowed to be executed btw.
+endcmmnt
+
+# it needs to know where it is or panic attack
+cd "$(dirname "$0")"
+    SCRIPT_DIR="$(pwd)"
+
+# path !!
+PATCHERPATH=$HOME/.local/share/patcher
+
+# copy that hoe to /.local/share/
+mv $SCRIPT_DIR/patcher ~/.local/share/
+
+# make good and damn sure that thing can be executed as a program
+chmod +x "$HOME/.local/share/patcher/ucscript"
+
+# add it to path and offer brief instructions about how to use it.
+echo "export PATH=~/.local/share/patcher:$PATH" >> ~/.bashrc
+notify-send "UC Patcher Added To Path, can be found in ~/.local/share/patcher"
+notify-send "Open the steam_api(64).dll files using uscript by opening with other application."
+
+# I pulled all of this from ACCELA's installer script, and modified it to how it's needed for this particular tool / project. thank you dearly ACCELA dev(s)!!
+# I now love Lain with all my heart.
+DESKTOP_ENTRY_DIR="$HOME/.local/share/applications"
+mkdir -p "$DESKTOP_ENTRY_DIR"
+
+cat > "$DESKTOP_ENTRY_DIR/patcher.desktop" <<EOL
+[Desktop Entry]
+Version=v3
+Name=UC Patcher
+Comment=this isnt how this works. dont run me from here.
+Exec=$PATCHERPATH/ucscript
+Terminal=false
+Type=uApplication
+Categories=Utility;Application;
+EOL
+
+: <<'endcmmnt'
+If you're reading this and wondering why that's even there, it's so that
+way, when you right click on the dll file, you can just click on other application
+and have it pop up in the list of apps to choose from instead of having
+to hunt it down tediously and just wasting your time with it. this is easier lol.
+endcmmnt
